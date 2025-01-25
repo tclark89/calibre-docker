@@ -10,8 +10,12 @@ services:
       - PGID=1000
       - TZ=America/Chicago
     volumes:
-      - ./calibre-config:/config
-      - /mnt/public/eBooks:/mnt/eBooks
+      - calibre-config:/config
+      - type: volume
+        source: mnt-public
+        target: /mnt/eBooks
+        volume:
+          subpath: eBooks
     restart: unless-stopped
 
   calibre-web:
@@ -23,9 +27,30 @@ services:
       - TZ=America/Chicago
       - OATHLIB_RELAX_TOKEN_SCOPE=1
     volumes:
-      - ./calibre-web-config:/config
-      - /mnt/public/eBooks:/books
+      - calibre-web-config:/config
+      - type: volume
+        source: mnt-public
+        target: /books
+        volume:
+          subpath: eBooks
     restart: unless-stopped
+
+volumes:
+  calibre-config:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=fileserver.localdomain.lan,rw,vers=4.1
+      device: ":/srv/docker/calibre/calibre-config"    
+  calibre-web-config:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=fileserver.localdomain.lan,rw,vers=4.1
+      device: ":/srv/docker/calibre/calibre-web-config"    
+  mnt-public:
+    external: true
+
 
 networks:
   default:
