@@ -1,0 +1,17 @@
+---
+services:
+  app:
+    image: lscr.io/linuxserver/calibre:latest
+      #security_opt:
+      #- seccomp=unconfined
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes:
+      - ./config:/config
+      - /mnt/public/eBooks:/mnt/eBooks
+    ports:
+      - 8080:8080
+      - 8081:8081
+
