@@ -1,7 +1,8 @@
----
 services:
-  app:
+  calibre:
     image: lscr.io/linuxserver/calibre:latest
+    container_name: calibre
+    restart: unless-stopped
       #security_opt:
       #- seccomp=unconfined
     environment:
@@ -18,5 +19,4 @@ services:
 networks:
   default:
     attachable: true
-    driver: overlay
     name: calibre
