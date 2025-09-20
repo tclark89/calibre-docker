@@ -18,5 +18,5 @@ services:
 
 networks:
   default:
-    attachable: true
-    name: calibre
+    name: frontend
+    external: true
